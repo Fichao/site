@@ -1,0 +1,1979 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#2b6cb0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Математика с машинками — 1 класс</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --bg1: #a8e6ff; --bg2: #ffe6a8; --card: #fff; --text: #333;
+    --text-light: #777; --primary: #2b6cb0; --primary-light: #e8f4ff;
+    --primary-shadow: #b8d8f0; --accent: #ffb03b; --accent-shadow: #d98c1f;
+    --ok: #27ae60; --no: #e74c3c; --road: #ddd;
+    --font-base: clamp(14px, 2.5vw, 18px);
+    --font-title: clamp(16px, 3vw, 22px);
+    --font-big: clamp(20px, 4vw, 28px);
+    --font-huge: clamp(28px, 6vw, 42px);
+  }
+  body.dark {
+    --bg1: #1a2332; --bg2: #2a3447; --card: #2a3447; --text: #e8eef5;
+    --text-light: #99a8bb; --primary: #6db3f2; --primary-light: #34495e;
+    --primary-shadow: #22303f; --accent: #ffb03b; --accent-shadow: #b87815;
+    --ok: #2ecc71; --no: #ff6b6b; --road: #445;
+  }
+  body.theme-space {
+    --bg1: #0f0c29; --bg2: #302b63; --card: #1f1b3a; --text: #e0d7ff;
+    --text-light: #9a8fc4; --primary: #b794f6; --primary-light: #2d2456;
+    --primary-shadow: #1a1533; --accent: #f6ad55; --accent-shadow: #b87815;
+    --ok: #68d391; --no: #fc8181; --road: #3a3560;
+  }
+  body.theme-forest {
+    --bg1: #c6f6d5; --bg2: #fefcbf; --card: #fff; --text: #22543d;
+    --text-light: #68a07c; --primary: #2f855a; --primary-light: #e6fffa;
+    --primary-shadow: #9ae6b4; --accent: #ed8936; --accent-shadow: #c05621;
+    --ok: #38a169; --no: #e53e3e; --road: #cbd5e0;
+  }
+
+  html { font-size: var(--font-base); }
+
+  body {
+    font-family: 'Comic Sans MS', 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);
+    min-height: 100vh; padding: 12px 10px 40px;
+    color: var(--text); overflow-x: hidden;
+    transition: background .4s, color .4s;
+    -webkit-user-select: none; user-select: none;
+    touch-action: manipulation;
+  }
+
+  .wrap { max-width: 900px; margin: 0 auto; }
+
+  .top-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 8px; gap: 6px;
+  }
+  .top-bar h1 {
+    font-size: var(--font-title); color: var(--primary);
+    flex: 1; text-align: center;
+    animation: titleFloat 3s ease-in-out infinite;
+  }
+  @keyframes titleFloat {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(-3px); }
+  }
+  .top-btns { display: flex; gap: 4px; }
+  .icon-btn {
+    font-family: inherit; width: 40px; height: 40px; border: none;
+    border-radius: 10px; background: var(--card); color: var(--primary);
+    font-size: 1.1rem; cursor: pointer;
+    box-shadow: 0 3px 0 var(--primary-shadow); transition: all .15s;
+  }
+  .icon-btn:hover { transform: translateY(-2px); }
+  .icon-btn.active { background: var(--accent); color: #fff; box-shadow: 0 3px 0 var(--accent-shadow); }
+
+  .subtitle {
+    text-align: center; font-size: 0.8rem; color: var(--text-light);
+    margin-bottom: 10px;
+  }
+
+  .rewards-bar {
+    display: flex; justify-content: center; align-items: center;
+    gap: 6px; margin-bottom: 10px; padding: 6px 12px;
+    background: var(--card); border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    font-size: 0.85rem; flex-wrap: wrap;
+  }
+  .rewards-bar .stars { font-size: 1rem; letter-spacing: 1px; }
+  .rewards-bar .stars .empty { opacity: .25; }
+  .rewards-bar .level {
+    background: linear-gradient(135deg, var(--accent), #ff8c42);
+    color: #fff; padding: 2px 8px; border-radius: 8px;
+    font-size: 0.75rem; font-weight: bold;
+  }
+
+  .main-tabs {
+    display: flex; justify-content: center; gap: 4px;
+    margin-bottom: 12px; flex-wrap: wrap;
+  }
+  .main-tab {
+    font-family: inherit; padding: 8px 12px; border: none;
+    border-radius: 12px; font-size: 0.8rem; font-weight: bold;
+    cursor: pointer; background: var(--card); color: var(--primary);
+    box-shadow: 0 4px 0 var(--primary-shadow); transition: all .15s;
+  }
+  .main-tab:hover { background: var(--primary-light); transform: translateY(-2px); }
+  .main-tab.active {
+    background: var(--accent); color: #fff;
+    box-shadow: 0 4px 0 var(--accent-shadow); transform: scale(1.05);
+  }
+
+  .modes {
+    display: flex; justify-content: center; gap: 6px;
+    margin-bottom: 12px; flex-wrap: wrap;
+  }
+  .mode-btn {
+    font-family: inherit; padding: 7px 14px; border: none;
+    border-radius: 12px; font-size: 0.8rem; font-weight: bold;
+    cursor: pointer; background: var(--card); color: var(--primary);
+    box-shadow: 0 4px 0 var(--primary-shadow); transition: all .15s;
+  }
+  .mode-btn:hover { background: var(--primary-light); }
+  .mode-btn.active { background: var(--accent); color: #fff; box-shadow: 0 4px 0 var(--accent-shadow); }
+
+  .number-select {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 4px; margin-bottom: 14px;
+  }
+  .num-btn {
+    font-family: inherit; width: 38px; height: 38px;
+    border-radius: 50%; border: none; background: var(--card);
+    color: var(--primary); font-size: 1rem; font-weight: bold;
+    cursor: pointer; box-shadow: 0 3px 0 var(--primary-shadow);
+    transition: all .2s; position: relative;
+  }
+  .num-btn:hover { transform: translateY(-2px) scale(1.05); }
+  .num-btn.active {
+    background: var(--accent); color: #fff;
+    box-shadow: 0 3px 0 var(--accent-shadow); transform: scale(1.1);
+  }
+  .num-btn.done::after {
+    content: '✓'; position: absolute; right: -2px; top: -2px;
+    font-size: 0.6rem; color: var(--ok); background: #fff;
+    border-radius: 50%; width: 14px; height: 14px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .selected-title {
+    text-align: center; font-size: var(--font-title);
+    font-weight: bold; color: var(--primary); margin-bottom: 12px;
+  }
+  .selected-title span {
+    display: inline-block; background: var(--accent); color: #fff;
+    padding: 2px 12px; border-radius: 10px; margin: 0 3px;
+  }
+
+  .cars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  @media (max-width: 400px) {
+    .cars-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  }
+
+  .car-card {
+    background: var(--card); border-radius: 16px;
+    padding: 6px 8px 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+    text-align: center; position: relative; overflow: hidden;
+    animation: driveIn .55s cubic-bezier(.5,1.5,.6,1) both;
+  }
+  @keyframes driveIn {
+    0%   { opacity: 0; transform: translateX(-60px) rotate(-6deg); }
+    70%  { transform: translateX(6px) rotate(2deg); }
+    100% { opacity: 1; transform: translateX(0) rotate(0); }
+  }
+  .car-card::before {
+    content: ''; position: absolute;
+    left: 0; right: 0; bottom: 38px; height: 3px;
+    background: repeating-linear-gradient(to right, var(--road) 0 12px, transparent 12px 24px);
+    animation: roadMove 1.2s linear infinite; opacity: .45;
+  }
+  @keyframes roadMove {
+    from { background-position: 0 0; }
+    to   { background-position: -24px 0; }
+  }
+
+  .brand-emoji {
+    font-size: 1.6rem; line-height: 1;
+    display: inline-block;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%,100% { transform: translateY(0) rotate(-2deg); }
+    50%     { transform: translateY(-4px) rotate(2deg); }
+  }
+
+  .car {
+    position: relative; height: 74px;
+    margin: 0 auto 6px; width: 150px;
+    animation: carIdle 2.5s ease-in-out infinite;
+  }
+  @keyframes carIdle {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(-2px); }
+  }
+  .car-body {
+    position: absolute; bottom: 18px; left: 8px; right: 8px;
+    height: 34px; border-radius: 11px 11px 6px 6px;
+    background: var(--car-color, #4a90e2);
+    box-shadow: inset 0 -6px 0 rgba(0,0,0,0.08);
+  }
+  .car-cabin {
+    position: absolute; bottom: 42px; left: 36px; right: 36px;
+    height: 22px; border-radius: 13px 13px 4px 4px;
+    background: var(--car-color, #4a90e2); filter: brightness(1.08);
+  }
+  .car-window {
+    position: absolute; bottom: 46px; height: 14px;
+    background: linear-gradient(135deg, #cfeaff 0%, #a8dcff 100%);
+    border-radius: 4px;
+  }
+  .car-window.w1 { left: 42px; width: 28px; }
+  .car-window.w2 { right: 42px; width: 28px; }
+  .smoke {
+    position: absolute; bottom: 25px; right: 0;
+    width: 11px; height: 11px; border-radius: 50%;
+    background: rgba(180,180,180,0.7);
+    animation: smokePuff 2s ease-out infinite;
+  }
+  .smoke:nth-child(2) { animation-delay: .4s; }
+  .smoke:nth-child(3) { animation-delay: .8s; }
+  @keyframes smokePuff {
+    0%   { transform: translate(0,0) scale(.4); opacity: .9; }
+    100% { transform: translate(26px,-26px) scale(1.5); opacity: 0; }
+  }
+
+  .wheel {
+    position: absolute; bottom: 2px; width: 34px; height: 34px;
+    border-radius: 50%; background: #2c2c2c; border: 4px solid #555;
+    color: #fff; font-weight: bold; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: all .2s; cursor: pointer;
+  }
+  .wheel::before {
+    content: ''; position: absolute; inset: 3px; border-radius: 50%;
+    background: repeating-conic-gradient(#666 0 20deg, #444 20deg 40deg);
+    opacity: .55;
+    animation: wheelSpin 1.6s linear infinite;
+  }
+  @keyframes wheelSpin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+  .wheel.left  { left: 14px; }
+  .wheel.right { right: 14px; }
+  .wheel span { position: relative; z-index: 1; }
+  .wheel.blank {
+    background: #fff3c4; color: #a06b00;
+    border-color: var(--accent); border-style: dashed;
+  }
+  .wheel.blank::before { opacity: .25; }
+  .wheel.blank:hover { transform: scale(1.1); }
+  .wheel.active {
+    box-shadow: 0 0 0 5px rgba(255,176,59,0.45), 0 0 18px rgba(255,176,59,0.6);
+    transform: scale(1.1);
+    animation: activePulse .9s ease-in-out infinite;
+  }
+  @keyframes activePulse {
+    0%,100% { box-shadow: 0 0 0 5px rgba(255,176,59,0.45), 0 0 18px rgba(255,176,59,0.6); }
+    50%     { box-shadow: 0 0 0 10px rgba(255,176,59,0.15), 0 0 26px rgba(255,176,59,0.9); }
+  }
+  .wheel.filled {
+    background: var(--ok); border-color: #1e8449;
+    animation: pop .45s cubic-bezier(.5,1.8,.5,1);
+  }
+  .wheel.wrong {
+    background: var(--no); border-color: #c0392b;
+    animation: shake .5s;
+  }
+  @keyframes pop {
+    0%   { transform: scale(0.4) rotate(-20deg); }
+    50%  { transform: scale(1.3) rotate(10deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+  @keyframes shake {
+    0%,100% { transform: translateX(0) rotate(0); }
+    20%     { transform: translateX(-7px) rotate(-7deg); }
+    40%     { transform: translateX(7px) rotate(7deg); }
+    60%     { transform: translateX(-5px) rotate(-5deg); }
+    80%     { transform: translateX(5px) rotate(5deg); }
+  }
+  .plus-wheel {
+    position: absolute; bottom: 10px; left: 50%;
+    transform: translateX(-50%); font-size: 1.1rem;
+    color: var(--text-light); font-weight: bold;
+  }
+  .example {
+    font-size: 1rem; font-weight: bold;
+    color: var(--text); letter-spacing: 1px;
+  }
+  .example .sum { color: var(--accent); }
+
+  .car-card.celebrate .car { animation: carJump .7s cubic-bezier(.5,1.8,.5,1); }
+  @keyframes carJump {
+    0%   { transform: translateY(0) scale(1); }
+    30%  { transform: translateY(-18px) scale(1.08) rotate(-4deg); }
+    60%  { transform: translateY(-8px) scale(1.05) rotate(3deg); }
+    100% { transform: translateY(0) scale(1) rotate(0); }
+  }
+  .car-card.celebrate { animation: cardGlow 1s ease; }
+  @keyframes cardGlow {
+    0%,100% { box-shadow: 0 8px 24px rgba(0,0,0,0.10); }
+    50%     { box-shadow: 0 8px 40px rgba(39,174,96,0.7), 0 0 0 4px rgba(39,174,96,0.4); }
+  }
+
+  .keypad-wrap {
+    margin-top: 14px; padding: 10px;
+    background: var(--card); border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+    text-align: center; position: sticky; bottom: 6px;
+    transition: background .2s, transform .2s; z-index: 10;
+  }
+  .keypad-label { font-size: 0.75rem; color: var(--text-light); margin-bottom: 6px; }
+  .keypad { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; }
+  .key {
+    font-family: inherit; width: 42px; height: 42px;
+    border-radius: 10px; border: none;
+    background: var(--primary-light); color: var(--primary);
+    font-size: 1.15rem; font-weight: bold; cursor: pointer;
+    box-shadow: 0 4px 0 var(--primary-shadow);
+    transition: transform .1s, background .2s;
+  }
+  .key:hover { transform: translateY(-2px); }
+  .key:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--primary-shadow); }
+  .key.pressed { background: var(--accent); color: #fff; animation: keyTap .25s; }
+  @keyframes keyTap {
+    0% { transform: scale(1); }
+    50% { transform: scale(.85); }
+    100% { transform: scale(1); }
+  }
+
+  .stats {
+    text-align: center; margin-top: 10px;
+    font-size: 0.9rem; color: var(--text-light);
+  }
+  .stats b { color: var(--ok); font-size: 1.1rem; display: inline-block; }
+  .stats b.bump { animation: statBump .4s; }
+  @keyframes statBump {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.4); }
+    100% { transform: scale(1); }
+  }
+
+  .plus-one {
+    position: fixed; font-size: 1.4rem; font-weight: bold;
+    color: var(--ok); pointer-events: none; z-index: 1000;
+    animation: plusOneFloat 1.2s ease-out forwards;
+  }
+  @keyframes plusOneFloat {
+    0%   { opacity: 1; transform: translateY(0) scale(0.5); }
+    40%  { opacity: 1; transform: translateY(-40px) scale(1.3); }
+    100% { opacity: 0; transform: translateY(-90px) scale(1); }
+  }
+  .confetti {
+    position: fixed; font-size: 1.4rem; pointer-events: none;
+    animation: fall linear forwards; z-index: 999;
+  }
+  @keyframes fall {
+    to { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+  }
+  .star-burst {
+    position: fixed; pointer-events: none; z-index: 1000;
+    font-size: 1.7rem;
+    animation: starFly .9s ease-out forwards;
+  }
+  @keyframes starFly {
+    0%   { opacity: 1; transform: translate(0,0) scale(.3) rotate(0); }
+    100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1.3) rotate(360deg); }
+  }
+
+  .overlay {
+    position: fixed; inset: 0; background: rgba(39,174,96,0.85);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 2000; animation: fadeIn .4s; cursor: pointer;
+    padding: 16px;
+  }
+  .overlay.gold { background: rgba(255,176,59,0.9); }
+  .overlay.blue { background: rgba(43,108,176,0.88); }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .overlay .msg {
+    background: #fff; color: #2b7a5b; padding: 24px 30px;
+    border-radius: 22px; font-size: var(--font-big); font-weight: bold;
+    text-align: center;
+    animation: pop .6s cubic-bezier(.5,1.8,.5,1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    max-width: 90%;
+  }
+  .overlay .msg small {
+    display: block; font-size: 0.85rem; color: #888;
+    margin-top: 10px; font-weight: normal;
+  }
+
+  .hidden { display: none !important; }
+
+  .game-area {
+    background: var(--card); border-radius: 18px;
+    padding: 16px 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+    animation: fadeIn .4s;
+  }
+  .game-title {
+    text-align: center; font-size: var(--font-title);
+    color: var(--primary); margin-bottom: 4px; font-weight: bold;
+  }
+  .game-desc {
+    text-align: center; font-size: 0.8rem;
+    color: var(--text-light); margin-bottom: 12px;
+  }
+  .game-content { min-height: 120px; }
+
+  .game-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 8px; margin-bottom: 14px;
+  }
+  .game-menu-btn {
+    font-family: inherit; padding: 12px 8px; border: none;
+    border-radius: 12px; background: var(--primary-light);
+    color: var(--primary); font-size: 0.85rem; font-weight: bold;
+    cursor: pointer; box-shadow: 0 4px 0 var(--primary-shadow);
+    transition: all .15s; display: flex; flex-direction: column;
+    align-items: center; gap: 3px;
+  }
+  .game-menu-btn .ico { font-size: 1.4rem; }
+  .game-menu-btn:hover { background: var(--accent); color: #fff; box-shadow: 0 4px 0 var(--accent-shadow); transform: translateY(-2px); }
+
+  .answer-row {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 8px; margin: 12px 0;
+  }
+  .answer-btn {
+    font-family: inherit; min-width: 54px; height: 54px;
+    padding: 0 12px; border: none; border-radius: 12px;
+    background: var(--primary-light); color: var(--primary);
+    font-size: 1.3rem; font-weight: bold; cursor: pointer;
+    box-shadow: 0 5px 0 var(--primary-shadow); transition: all .15s;
+  }
+  .answer-btn:hover { transform: translateY(-3px); }
+  .answer-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--primary-shadow); }
+  .answer-btn.ok { background: var(--ok); color: #fff; box-shadow: 0 5px 0 #1e8449; }
+  .answer-btn.no { background: var(--no); color: #fff; box-shadow: 0 5px 0 #c0392b; animation: shake .5s; }
+
+  .count-task {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 6px; margin: 16px 0; min-height: 70px; align-items: center;
+  }
+  .count-emoji {
+    font-size: 1.8rem;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  .count-emoji:nth-child(2n) { animation-delay: .2s; }
+  .count-emoji:nth-child(3n) { animation-delay: .4s; }
+
+  .find-task {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 10px; margin: 16px 0;
+  }
+  .find-num {
+    width: 60px; height: 60px; border-radius: 14px; border: none;
+    background: var(--primary-light); color: var(--primary);
+    font-size: 1.6rem; font-weight: bold; cursor: pointer;
+    box-shadow: 0 5px 0 var(--primary-shadow);
+    transition: all .15s; font-family: inherit;
+  }
+  .find-num:hover { transform: translateY(-3px) scale(1.05); }
+  .find-num.ok { background: var(--ok); color: #fff; box-shadow: 0 5px 0 #1e8449; }
+  .find-num.no { background: var(--no); color: #fff; box-shadow: 0 5px 0 #c0392b; }
+
+  .compare-task {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; font-size: var(--font-big); font-weight: bold;
+    margin: 12px 0 16px; min-height: 70px;
+  }
+  .compare-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 60px; height: 60px; border-radius: 14px;
+    background: linear-gradient(135deg, var(--primary-light), #cfeaff);
+    color: var(--primary); box-shadow: 0 4px 0 var(--primary-shadow);
+  }
+  .compare-op {
+    font-size: var(--font-big); color: var(--accent);
+    min-width: 40px; text-align: center;
+  }
+  .compare-op.correct-answer { color: var(--ok); }
+
+  .neighbors-task {
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px; margin: 12px 0 16px; min-height: 80px;
+  }
+  .neighbor-slot { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .neighbor-label {
+    font-size: 0.65rem; color: var(--text-light);
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .neighbor-box {
+    width: 56px; height: 56px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; font-weight: bold;
+    background: var(--primary-light); color: var(--primary);
+    box-shadow: 0 4px 0 var(--primary-shadow);
+  }
+  .neighbor-box.question {
+    background: #fff3c4; color: #a06b00;
+    border: 3px dashed var(--accent); cursor: pointer;
+  }
+  .neighbor-box.question.active {
+    box-shadow: 0 0 0 5px rgba(255,176,59,0.5); transform: scale(1.08);
+  }
+  .neighbor-box.filled {
+    background: var(--ok); color: #fff; box-shadow: 0 4px 0 #1e8449;
+  }
+  .neighbor-center {
+    width: 56px; height: 56px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; font-weight: bold;
+    background: linear-gradient(135deg, var(--accent), #ff8c42);
+    color: #fff; box-shadow: 0 4px 0 var(--accent-shadow);
+  }
+
+  .match-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 6px; max-width: 320px; margin: 12px auto;
+  }
+  .match-card {
+    aspect-ratio: 1; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; font-weight: bold; cursor: pointer;
+    background: linear-gradient(135deg, #4a90e2, #2b6cb0);
+    color: #fff; box-shadow: 0 4px 0 #1a4b7a;
+    transition: all .25s; position: relative;
+  }
+  .match-card::after {
+    content: '?'; position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: inherit; border-radius: inherit; transition: opacity .25s;
+  }
+  .match-card.revealed::after { opacity: 0; }
+  .match-card.revealed {
+    background: linear-gradient(135deg, var(--accent), #ff8c42);
+    box-shadow: 0 4px 0 var(--accent-shadow);
+  }
+  .match-card.matched {
+    background: linear-gradient(135deg, #7ee2a8, #27ae60);
+    box-shadow: 0 4px 0 #1e8449;
+    animation: matchedPulse .6s; pointer-events: none;
+  }
+  @keyframes matchedPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+
+  .sequence-task {
+    display: flex; align-items: center; justify-content: center;
+    gap: 6px; flex-wrap: wrap; margin: 16px 0;
+    font-size: 1.4rem; font-weight: bold;
+  }
+  .seq-item {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 46px; height: 46px; border-radius: 12px;
+    background: var(--primary-light); color: var(--primary);
+    box-shadow: 0 4px 0 var(--primary-shadow);
+  }
+  .seq-item.question {
+    background: #fff3c4; color: #a06b00;
+    border: 3px dashed var(--accent);
+  }
+  .seq-item.filled {
+    background: var(--ok); color: #fff; box-shadow: 0 4px 0 #1e8449;
+  }
+
+  .plus-minus-task {
+    text-align: center; font-size: 1.4rem; font-weight: bold;
+    color: var(--text); margin: 16px 0; line-height: 1.5;
+  }
+  .plus-minus-task .big { color: var(--accent); font-size: 2rem; }
+
+  .parity-garage {
+    display: flex; gap: 8px; justify-content: center;
+    margin: 12px 0; flex-wrap: wrap;
+  }
+  .garage {
+    flex: 1; min-width: 130px; padding: 12px 8px;
+    border-radius: 14px; background: var(--primary-light);
+    border: 3px dashed var(--primary-shadow);
+    text-align: center; cursor: pointer;
+    transition: all .2s; min-height: 90px;
+  }
+  .garage:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .garage-label {
+    font-size: 0.85rem; font-weight: bold;
+    color: var(--primary); margin-bottom: 6px;
+  }
+  .garage-contents {
+    display: flex; flex-wrap: wrap; gap: 4px; justify-content: center;
+  }
+  .parity-car {
+    font-size: 1.4rem; padding: 2px 6px;
+    border-radius: 8px; background: var(--card);
+  }
+
+  .parking-area {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    justify-content: center; margin: 12px 0;
+  }
+  .parking-car {
+    font-size: 1.6rem; padding: 6px 10px;
+    background: var(--primary-light); border-radius: 12px;
+    cursor: grab; display: inline-flex; align-items: center;
+    gap: 4px; box-shadow: 0 3px 0 var(--primary-shadow);
+    transition: transform .15s;
+  }
+  .parking-car:active { cursor: grabbing; transform: scale(1.1); }
+  .parking-car .num {
+    background: #fff; color: var(--primary); border-radius: 50%;
+    width: 28px; height: 28px; display: flex;
+    align-items: center; justify-content: center;
+    font-weight: bold; font-size: 0.9rem;
+  }
+  .parking-slots {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    justify-content: center; margin-top: 12px;
+  }
+  .parking-slot {
+    min-width: 74px; min-height: 64px; padding: 6px;
+    border: 3px dashed var(--primary-shadow);
+    border-radius: 12px; display: flex;
+    flex-direction: column; align-items: center;
+    gap: 3px; background: var(--primary-light);
+    transition: all .2s;
+  }
+  .parking-slot.over {
+    border-color: var(--accent); background: #fff3c4; transform: scale(1.05);
+  }
+  .parking-slot .slot-num {
+    font-size: 1.2rem; font-weight: bold; color: var(--primary);
+  }
+  .parking-slot .slot-contents {
+    display: flex; flex-wrap: wrap; gap: 3px; justify-content: center;
+  }
+
+  .race-track {
+    position: relative; height: 50px;
+    background: repeating-linear-gradient(to right, #555 0 18px, #444 18px 36px);
+    border-radius: 25px; margin: 16px 0;
+    border: 3px solid #2c2c2c; overflow: hidden;
+  }
+  .race-car {
+    position: absolute; font-size: 1.6rem;
+    top: 50%; transform: translateY(-50%);
+    transition: left .4s cubic-bezier(.5,1.5,.5,1);
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.4));
+  }
+  .race-finish {
+    position: absolute; right: 4px; top: 0; bottom: 0;
+    width: 26px;
+    background: repeating-conic-gradient(#000 0 25%, #fff 25% 50%);
+    background-size: 10px 10px;
+  }
+  .race-question {
+    text-align: center; font-size: 1.6rem; font-weight: bold;
+    color: var(--text); margin: 12px 0;
+  }
+
+  .timer {
+    text-align: center; font-size: 0.9rem;
+    color: var(--text-light); margin-bottom: 8px;
+  }
+  .timer b { color: var(--accent); font-size: 1.1rem; }
+
+  .pet-area {
+    text-align: center; padding: 16px;
+    background: var(--primary-light);
+    border-radius: 16px; margin: 16px 0;
+  }
+  .pet-car {
+    font-size: 4rem;
+    animation: petBounce 2s ease-in-out infinite;
+    display: inline-block;
+  }
+  @keyframes petBounce {
+    0%,100% { transform: translateY(0) rotate(-3deg); }
+    50%     { transform: translateY(-10px) rotate(3deg); }
+  }
+  .pet-name { font-size: 1.2rem; font-weight: bold; color: var(--primary); margin-top: 8px; }
+  .pet-stats { font-size: 0.9rem; color: var(--text-light); margin-top: 6px; }
+
+  .settings-list {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .setting-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px; background: var(--primary-light);
+    border-radius: 14px; font-size: 0.9rem;
+    gap: 8px; flex-wrap: wrap;
+  }
+  .setting-row .toggle {
+    font-family: inherit; padding: 6px 16px; border: none;
+    border-radius: 10px; background: var(--card); color: var(--primary);
+    font-weight: bold; cursor: pointer;
+    box-shadow: 0 3px 0 var(--primary-shadow); transition: all .15s;
+  }
+  .setting-row .toggle.on { background: var(--ok); color: #fff; box-shadow: 0 3px 0 #1e8449; }
+
+  .achievements-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 8px;
+  }
+  .ach {
+    text-align: center; padding: 10px 6px;
+    border-radius: 12px; background: var(--primary-light);
+    opacity: .4; transition: all .2s;
+  }
+  .ach.unlocked {
+    opacity: 1;
+    background: linear-gradient(135deg, var(--accent), #ff8c42);
+    color: #fff;
+    animation: achGlow 2s ease-in-out infinite;
+  }
+  @keyframes achGlow {
+    0%,100% { box-shadow: 0 0 0 0 rgba(255,176,59,0.4); }
+    50%     { box-shadow: 0 0 0 8px rgba(255,176,59,0); }
+  }
+  .ach .ico { font-size: 1.8rem; }
+  .ach .name { font-size: 0.7rem; font-weight: bold; margin-top: 3px; }
+
+  .parent-stats {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 8px; margin-bottom: 14px;
+  }
+  .parent-stat {
+    background: var(--primary-light); border-radius: 10px;
+    padding: 10px; text-align: center;
+  }
+  .parent-stat .val {
+    font-size: 1.4rem; font-weight: bold; color: var(--primary);
+  }
+  .parent-stat .lbl {
+    font-size: 0.7rem; color: var(--text-light); margin-top: 2px;
+  }
+
+  .progress-bar-wrap {
+    background: var(--primary-light); height: 12px;
+    border-radius: 6px; overflow: hidden; margin: 8px 0;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #ff8c42);
+    transition: width .5s; border-radius: 6px;
+  }
+
+  .speak-btn {
+    font-family: inherit; padding: 6px 14px; border: none;
+    border-radius: 12px; background: var(--primary-light);
+    color: var(--primary); font-size: 0.85rem; cursor: pointer;
+    box-shadow: 0 3px 0 var(--primary-shadow);
+    margin: 0 auto 10px; display: block; transition: all .15s;
+  }
+  .speak-btn:hover { transform: translateY(-2px); }
+  .speak-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--primary-shadow); }
+
+  /* Сложение и вычитание */
+  .equation-display {
+    text-align: center; font-size: var(--font-huge);
+    font-weight: bold; color: var(--text);
+    margin: 16px 0; letter-spacing: 2px;
+  }
+  .equation-display .q { color: var(--accent); animation: pulse 1.2s infinite; }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+  .equation-display .op { color: var(--primary); }
+
+  /* Сортировка по порядку */
+  .order-items {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    justify-content: center; margin: 12px 0;
+  }
+  .order-item {
+    width: 50px; height: 50px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; font-weight: bold; cursor: pointer;
+    background: var(--primary-light); color: var(--primary);
+    box-shadow: 0 4px 0 var(--primary-shadow);
+    transition: all .2s;
+  }
+  .order-item.selected {
+    background: var(--accent); color: #fff;
+    box-shadow: 0 4px 0 var(--accent-shadow);
+    transform: scale(1.1);
+  }
+  .order-item.done {
+    background: var(--ok); color: #fff;
+    box-shadow: 0 4px 0 #1e8449; pointer-events: none;
+  }
+
+  /* Кнопка перезапуска */
+  .restart-btn {
+    font-family: inherit; padding: 8px 18px; border: none;
+    border-radius: 12px; background: var(--no); color: #fff;
+    font-weight: bold; cursor: pointer; box-shadow: 0 3px 0 #c0392b;
+    margin-top: 10px;
+  }
+  .restart-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #c0392b; }
+
+  @media (max-width: 500px) {
+    h1 { font-size: 1rem; }
+    .main-tab { font-size: 0.75rem; padding: 7px 9px; }
+    .cars-grid { grid-template-columns: 1fr 1fr; }
+    .match-grid { max-width: 100%; }
+    .overlay .msg { font-size: 1.2rem; padding: 20px 22px; }
+    .key { width: 38px; height: 38px; font-size: 1rem; }
+    .answer-btn { min-width: 48px; height: 48px; font-size: 1.1rem; }
+    .game-menu { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="top-bar">
+    <div class="top-btns">
+      <button class="icon-btn" id="soundBtn" title="Звук">🔊</button>
+    </div>
+    <h1>🚗 Математика с машинками</h1>
+    <div class="top-btns">
+      <button class="icon-btn" id="themeBtn" title="Тема">🌙</button>
+      <button class="icon-btn" id="parentBtn" title="Для родителей">👨‍👩‍👧</button>
+    </div>
+  </div>
+  <p class="subtitle">1 класс · НУШ · 1 полугодие</p>
+
+  <div class="rewards-bar">
+    <span class="stars" id="starsBar"></span>
+    <span class="level" id="levelBadge">🚗 Новичок</span>
+    <span style="color:var(--text-light);font-size:0.85rem;">Всего: <b id="totalCorrect">0</b></span>
+  </div>
+
+  <div class="main-tabs">
+    <button class="main-tab active" data-tab="compose">🔢 Состав</button>
+    <button class="main-tab" data-tab="games">🎮 Игры</button>
+    <button class="main-tab" data-tab="pet">🐾 Питомец</button>
+    <button class="main-tab" data-tab="achievements">🏆 Ачивки</button>
+    <button class="main-tab" data-tab="settings">⚙️ Настройки</button>
+  </div>
+
+  <!-- СОСТАВ -->
+  <div id="pageCompose">
+    <div class="modes">
+      <button class="mode-btn active" data-mode="study">📚 Тренировка</button>
+      <button class="mode-btn" data-mode="express">⚡ Экспресс</button>
+      <button class="mode-btn" data-mode="memory">🧠 Запомни</button>
+    </div>
+    <div class="number-select" id="numberSelect"></div>
+    <div class="selected-title" id="selectedTitle"></div>
+    <div class="cars-grid" id="carsGrid"></div>
+    <div class="keypad-wrap" id="keypadWrap">
+      <div class="keypad-label">Нажми на колесо-«?», затем выбери цифру</div>
+      <div class="keypad" id="keypad"></div>
+    </div>
+    <div class="stats hidden" id="stats"></div>
+  </div>
+
+  <!-- ИГРЫ -->
+  <div id="pageGames" class="hidden">
+    <div class="game-area">
+      <div id="gameMenuView">
+        <div class="game-title">🎮 Выбери игру</div>
+        <div class="game-desc">Играй и учись!</div>
+        <div class="game-menu" id="gameMenu"></div>
+      </div>
+      <div id="gamePlayView" class="hidden">
+        <button class="speak-btn" id="backToMenu">← К списку игр</button>
+        <div class="game-title" id="gameTitle"></div>
+        <div class="game-desc" id="gameDesc"></div>
+        <button class="speak-btn hidden" id="speakTask">🔊 Повторить задание</button>
+        <div class="game-content" id="gameContent"></div>
+        <div class="timer hidden" id="gameTimer"></div>
+        <div class="game-feedback" id="gameFeedback"></div>
+        <div class="game-score hidden" id="gameScore"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ПИТОМЕЦ -->
+  <div id="pagePet" class="hidden">
+    <div class="game-area">
+      <div class="game-title">🐾 Мой питомец</div>
+      <div class="game-desc">Питомец растёт, когда ты решаешь примеры!</div>
+      <div class="pet-area">
+        <div class="pet-car" id="petCar">🚗</div>
+        <div class="pet-name" id="petName">Малыш</div>
+        <div class="pet-stats" id="petStats">Правильных ответов: 0</div>
+      </div>
+      <div style="text-align:center;font-size:0.85rem;color:var(--text-light);margin-top:10px;">
+        🚗 0 · 🚕 5 · 🏎️ 15 · 🚀 30 · 🛸 60
+      </div>
+    </div>
+  </div>
+
+  <!-- АЧИВКИ -->
+  <div id="pageAchievements" class="hidden">
+    <div class="game-area">
+      <div class="game-title">🏆 Достижения</div>
+      <div class="game-desc">Собирай награды за успехи!</div>
+      <div class="achievements-list" id="achList"></div>
+    </div>
+  </div>
+
+  <!-- НАСТРОЙКИ -->
+  <div id="pageSettings" class="hidden">
+    <div class="game-area">
+      <div class="game-title">⚙️ Настройки</div>
+      <div class="game-desc">Настрой игру под себя</div>
+      <div class="settings-list">
+        <div class="setting-row"><span>🔊 Звуки</span><button class="toggle on" id="toggleSound">Вкл</button></div>
+        <div class="setting-row"><span>🗣️ Озвучка</span><button class="toggle on" id="toggleVoice">Вкл</button></div>
+        <div class="setting-row"><span>🌙 Тёмная тема</span><button class="toggle" id="toggleTheme">Выкл</button></div>
+        <div class="setting-row"><span>🚀 Космос</span><button class="toggle" id="toggleSpace">Выкл</button></div>
+        <div class="setting-row"><span>🌲 Лес</span><button class="toggle" id="toggleForest">Выкл</button></div>
+        <div class="setting-row"><span>⏱️ Таймер</span><button class="toggle" id="toggleTimer">Выкл</button></div>
+        <div class="setting-row"><span>📱 Установить</span><button class="toggle" id="installBtn">APK/PWA</button></div>
+        <div class="setting-row"><span>🗑️ Сбросить прогресс</span><button class="toggle" id="resetBtn" style="background:var(--no);color:#fff;box-shadow:0 3px 0 #c0392b;">Сброс</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+//  СОСТОЯНИЕ
+// ============================================================
+const STATE_KEY = 'math-cars-v3';
+const state = {
+  soundOn: true, voiceOn: true, darkTheme: false, spaceTheme: false, forestTheme: false,
+  timerOn: false, totalCorrect: 0, level: 'Новичок', achievements: {},
+  petName: 'Малыш', learnedNumbers: [],
+  stats: {}
+};
+const STAT_KEYS = ['compose','compare','neighbors','match','sequence','count','findNum','plusMinus','parity','parking','race','addition','subtraction','order','missing'];
+STAT_KEYS.forEach(k => state.stats[k] = { correct: 0, total: 0 });
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem(STATE_KEY);
+    if (saved) {
+      const p = JSON.parse(saved);
+      Object.assign(state, p);
+      if (p.stats) STAT_KEYS.forEach(k => { if (p.stats[k]) Object.assign(state.stats[k], p.stats[k]); });
+    }
+  } catch (e) {}
+}
+function saveState() { try { localStorage.setItem(STATE_KEY, JSON.stringify(state)); } catch (e) {} }
+
+// ============================================================
+//  ЗВУК
+// ============================================================
+let audioCtx = null;
+function initAudio() {
+  if (!state.soundOn) return;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+  } catch (e) {}
+}
+function playTone(freq, dur, type='sine', vol=0.15, delay=0, slideTo=null) {
+  if (!state.soundOn) return;
+  try {
+    initAudio();
+    if (!audioCtx) return;
+    const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+    const now = audioCtx.currentTime + delay;
+    osc.type = type; osc.frequency.setValueAtTime(freq, now);
+    if (slideTo) osc.frequency.linearRampToValueAtTime(slideTo, now + dur);
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(vol, now + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(now); osc.stop(now + dur + 0.05);
+  } catch (e) {}
+}
+const S = {
+  correct: () => { playTone(523.25,.1,'sine',.18); playTone(659.25,.1,'sine',.18,.09); playTone(783.99,.22,'sine',.2,.18); },
+  wrong: () => { playTone(220,.15,'sawtooth',.12); playTone(170,.22,'sawtooth',.12,.09,130); },
+  click: () => playTone(880,.05,'square',.06),
+  wheel: () => playTone(440,.06,'triangle',.08),
+  victory: () => { [523.25,659.25,783.99,1046.5].forEach((f,i)=>playTone(f,.16,'sine',.2,i*.1)); setTimeout(()=>{playTone(1046.5,.35,'sine',.22);playTone(1318.5,.45,'sine',.18,.05);},450); },
+  switch: () => { playTone(440,.07,'sine',.1); playTone(660,.08,'sine',.1,.05); },
+  match: () => { playTone(880,.07,'sine',.12); playTone(1100,.1,'sine',.12,.05); },
+  star: () => playTone(1400,.15,'sine',.12),
+  levelUp: () => [523.25,659.25,783.99,1046.5,1318.5].forEach((f,i)=>playTone(f,.15,'triangle',.18,i*.08))
+};
+function speak(text) {
+  if (!state.voiceOn || !('speechSynthesis' in window)) return;
+  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang='ru-RU'; u.rate=0.9; u.pitch=1.2; speechSynthesis.speak(u); } catch (e) {}
+}
+
+// ============================================================
+//  УТИЛИТЫ
+// ============================================================
+const $ = id => document.getElementById(id);
+const rand = (a,b) => Math.floor(Math.random()*(b-a+1))+a;
+const shuffle = arr => [...arr].sort(() => Math.random()-0.5);
+const CAR_EMOJIS = ['🏎️','🚙','🚗','🚘','🚕','🚓','🚐','🛻','🚌','🚑','🚒','🚔','🚖','🚍'];
+
+function launchConfetti(count) {
+  const em = ['🎉','⭐','✨','🎈','🏁','🏆'];
+  for (let i=0;i<count;i++) {
+    const el = document.createElement('div'); el.className='confetti';
+    el.textContent = em[Math.floor(Math.random()*em.length)];
+    el.style.left = Math.random()*100+'vw'; el.style.top='-40px';
+    el.style.animationDuration = (1.2+Math.random()*1.2)+'s';
+    document.body.appendChild(el); setTimeout(()=>el.remove(),2600);
+  }
+}
+function starBurst(x,y) {
+  const em=['⭐','✨','🌟','💫'];
+  for(let i=0;i<6;i++){
+    const el=document.createElement('div'); el.className='star-burst';
+    el.textContent=em[i%em.length]; el.style.left=x+'px'; el.style.top=y+'px';
+    const a=(Math.PI*2*i)/6;
+    el.style.setProperty('--dx',Math.cos(a)*70+'px');
+    el.style.setProperty('--dy',Math.sin(a)*70+'px');
+    document.body.appendChild(el); setTimeout(()=>el.remove(),950);
+  }
+}
+function showPlusOne(x,y) {
+  const el=document.createElement('div'); el.className='plus-one';
+  el.textContent='+1 ⭐'; el.style.left=x+'px'; el.style.top=y+'px';
+  document.body.appendChild(el); setTimeout(()=>el.remove(),1300);
+}
+function showOverlay(html, color='green') {
+  const o = document.createElement('div');
+  o.className = 'overlay' + (color!=='green'?' '+color:'');
+  o.innerHTML = `<div class="msg">${html}<small>Нажми, чтобы продолжить</small></div>`;
+  o.addEventListener('click', ()=>o.remove());
+  document.body.appendChild(o);
+  setTimeout(()=>{ if(o.parentNode) o.remove(); }, 3500);
+}
+
+// ============================================================
+//  УРОВНИ, АЧИВКИ, ПИТОМЕЦ
+// ============================================================
+const LEVELS = [
+  {name:'🚗 Новичок',t:0},{name:'🚕 Водитель',t:10},{name:'🚙 Гонщик',t:25},
+  {name:'🏎️ Чемпион',t:50},{name:'🚀 Легенда',t:100},{name:'🏆 Мастер',t:200}
+];
+const ACHIEVEMENTS = [
+  {id:'first',ico:'🌟',name:'Первый шаг',cond:s=>s.totalCorrect>=1},
+  {id:'ten',ico:'⭐',name:'10 ответов',cond:s=>s.totalCorrect>=10},
+  {id:'fifty',ico:'💫',name:'50 ответов',cond:s=>s.totalCorrect>=50},
+  {id:'hundred',ico:'🏆',name:'100 ответов',cond:s=>s.totalCorrect>=100},
+  {id:'allNums',ico:'🔢',name:'Все числа',cond:s=>s.learnedNumbers.length>=9},
+  {id:'compare10',ico:'⚖️',name:'Сравни 10',cond:s=>s.stats.compare.correct>=10},
+  {id:'match5',ico:'🃏',name:'5 пар',cond:s=>s.stats.match.correct>=5},
+  {id:'seq5',ico:'➡️',name:'5 рядов',cond:s=>s.stats.sequence.correct>=5},
+  {id:'perfect',ico:'💎',name:'Идеально',cond:s=>s.totalCorrect>20&&s.stats.compose.correct>=s.stats.compose.total*0.9},
+  {id:'pet',ico:'🐾',name:'Питомец вырос',cond:s=>s.totalCorrect>=30},
+  {id:'addict',ico:'🔥',name:'100 примеров',cond:s=>s.stats.addition.correct+s.stats.subtraction.correct>=100},
+  {id:'raceChamp',ico:'🏁',name:'Гонщик',cond:s=>s.stats.race.correct>=5},
+  {id:'orderStar',ico:'📈',name:'По порядку',cond:s=>s.stats.order.correct>=3}
+];
+const PET_STAGES = [
+  {min:0,emoji:'🚗',name:'Малыш'},{min:5,emoji:'🚕',name:'Таксик'},
+  {min:15,emoji:'🏎️',name:'Гонщик'},{min:30,emoji:'🚀',name:'Ракета'},
+  {min:60,emoji:'🛸',name:'Космолёт'}
+];
+
+function updateRewards() {
+  const stars = Math.min(state.totalCorrect, 30);
+  let html = '';
+  for (let i=0;i<10;i++) html += i < Math.floor(stars/3) ? '⭐' : '<span class="empty">⭐</span>';
+  $('starsBar').innerHTML = html;
+  let lvl = LEVELS[0];
+  for (const l of LEVELS) if (state.totalCorrect >= l.t) lvl = l;
+  if (lvl.name !== state.level && state.level !== 'Новичок') S.levelUp();
+  state.level = lvl.name;
+  $('levelBadge').textContent = state.level;
+  $('totalCorrect').textContent = state.totalCorrect;
+  updatePet();
+  checkAchievements();
+  saveState();
+}
+function awardCorrect() { state.totalCorrect++; updateRewards(); }
+function checkAchievements() {
+  ACHIEVEMENTS.forEach(a => {
+    if (!state.achievements[a.id] && a.cond(state)) {
+      state.achievements[a.id] = true;
+      S.star();
+      setTimeout(()=>showOverlay(`🏆 Достижение!<br>${a.ico} ${a.name}`,'gold'),400);
+    }
+  });
+  saveState();
+}
+function updatePet() {
+  let stage = PET_STAGES[0];
+  for (const s of PET_STAGES) if (state.totalCorrect >= s.min) stage = s;
+  if ($('petCar')) $('petCar').textContent = stage.emoji;
+  if ($('petName')) $('petName').textContent = stage.name;
+  if ($('petStats')) $('petStats').textContent = `Правильных ответов: ${state.totalCorrect}`;
+}
+
+// ============================================================
+//  НАВИГАЦИЯ
+// ============================================================
+document.querySelectorAll('.main-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    S.switch();
+    document.querySelectorAll('.main-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    ['compose','games','pet','achievements','settings'].forEach(n=>{
+      const el = $('page'+n.charAt(0).toUpperCase()+n.slice(1));
+      if (el) el.classList.add('hidden');
+    });
+    const id = 'page'+tab.dataset.tab.charAt(0).toUpperCase()+tab.dataset.tab.slice(1);
+    $(id).classList.remove('hidden');
+    if (tab.dataset.tab==='pet') updatePet();
+    if (tab.dataset.tab==='achievements') renderAchievements();
+  });
+});
+
+// ============================================================
+//  СОСТАВ ЧИСЛА
+// ============================================================
+let currentMode = 'study', currentNumber = 6, activeWheel = null;
+let expCorrect = 0, expTotal = 0, memoryTimeout = null;
+
+for (let n=1;n<=10;n++) {
+  const b = document.createElement('button');
+  b.className = 'num-btn' + (n===currentNumber?' active':'') + (state.learnedNumbers.includes(n)?' done':'');
+  b.dataset.num = n; b.textContent = n;
+  b.addEventListener('click', () => {
+    S.click(); currentNumber = n;
+    document.querySelectorAll('.num-btn').forEach(x=>x.classList.toggle('active',Number(x.dataset.num)===n));
+    if (currentMode==='memory') renderMemoryMode(); else renderStudyMode();
+  });
+  $('numberSelect').appendChild(b);
+}
+
+for (let i=0;i<=10;i++) {
+  const k = document.createElement('button');
+  k.className = 'key'; k.textContent = i;
+  k.addEventListener('click', e => {
+    k.classList.add('pressed'); setTimeout(()=>k.classList.remove('pressed'),250);
+    tryAnswer(i,e);
+  });
+  $('keypad').appendChild(k);
+}
+
+document.querySelectorAll('.mode-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    S.switch(); currentMode = b.dataset.mode;
+    document.querySelectorAll('.mode-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    const ex = currentMode==='express';
+    $('numberSelect').classList.toggle('hidden', ex);
+    $('stats').classList.toggle('hidden', !ex);
+    expCorrect = 0; expTotal = 0;
+    if (ex) newExpressTask();
+    else if (currentMode==='memory') renderMemoryMode();
+    else renderStudyMode();
+  });
+});
+
+function buildCarCard(emoji, color, a, b, sum, idx) {
+  const c = document.createElement('div');
+  c.className = 'car-card'; c.style.setProperty('--car-color',color);
+  c.style.animationDelay = (idx*0.06)+'s';
+  c.innerHTML = `
+    <div class="brand-emoji">${emoji}</div>
+    <div class="car">
+      <div class="smoke"></div><div class="smoke"></div><div class="smoke"></div>
+      <div class="car-cabin"></div><div class="car-window w1"></div><div class="car-window w2"></div>
+      <div class="car-body"></div>
+      <span class="wheel left blank" data-value="${a}"><span>?</span></span>
+      <span class="plus-wheel">+</span>
+      <span class="wheel right blank" data-value="${b}"><span>?</span></span>
+    </div>
+    <div class="example">? + ? = <span class="sum">${sum}</span></div>
+  `;
+  c.querySelectorAll('.wheel.blank').forEach(w => {
+    w.addEventListener('click', e => { e.stopPropagation(); S.wheel(); setActiveWheel(w); });
+  });
+  return c;
+}
+function setActiveWheel(w) {
+  if (!w || w.classList.contains('filled')) return;
+  if (activeWheel) activeWheel.classList.remove('active');
+  activeWheel = w; w.classList.add('active');
+}
+function tryAnswer(value, event) {
+  if (!activeWheel) { S.click(); return; }
+  const correct = Number(activeWheel.dataset.value);
+  if (value === correct) {
+    S.correct();
+    activeWheel.querySelector('span').textContent = value;
+    activeWheel.classList.remove('blank','active'); activeWheel.classList.add('filled');
+    activeWheel.style.pointerEvents = 'none';
+    const card = activeWheel.closest('.car-card');
+    card.classList.add('celebrate'); setTimeout(()=>card.classList.remove('celebrate'),1000);
+    if (event) starBurst(event.clientX,event.clientY);
+    awardCorrect();
+    state.stats.compose.correct++; state.stats.compose.total++;
+    if (currentMode==='express') {
+      expCorrect++; expTotal++; updateStats();
+      showPlusOne(event?event.clientX:innerWidth/2, event?event.clientY:100);
+      setTimeout(newExpressTask,700);
+    } else {
+      updateExampleText(card);
+      const next = document.querySelector('.wheel.blank');
+      activeWheel = null;
+      if (next) setActiveWheel(next);
+      else if (currentMode==='study') {
+        if (!state.learnedNumbers.includes(currentNumber)) state.learnedNumbers.push(currentNumber);
+        document.querySelector(`.num-btn[data-num="${currentNumber}"]`)?.classList.add('done');
+        S.victory(); launchConfetti(30);
+        showOverlay(`🌟 Молодец!<br>Состав числа ${currentNumber} собран!`);
+      }
+    }
+  } else {
+    S.wrong();
+    activeWheel.classList.add('wrong');
+    setTimeout(()=>activeWheel && activeWheel.classList.remove('wrong'),500);
+    state.stats.compose.total++;
+    if (currentMode==='express') { expTotal++; updateStats(); setTimeout(newExpressTask,700); }
+  }
+}
+function updateExampleText(card) {
+  if (!card) return;
+  const w = card.querySelectorAll('.wheel');
+  const l = w[0].querySelector('span').textContent, r = w[1].querySelector('span').textContent;
+  const sum = card.querySelector('.example .sum').textContent;
+  card.querySelector('.example').innerHTML = `${l} + ${r} = <span class="sum">${sum}</span>`;
+}
+function renderStudyMode() {
+  $('selectedTitle').innerHTML = `Число <span>${currentNumber}</span> — заполни колёса!`;
+  $('carsGrid').innerHTML = ''; activeWheel = null;
+  const pairs = [];
+  for (let a=1;a<currentNumber;a++) pairs.push([a,currentNumber-a]);
+  if (!pairs.length) {
+    $('carsGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text-light);padding:30px;">Число 1 — самое маленькое 🐣</div>';
+    return;
+  }
+  pairs.forEach((p,i)=>{
+    const em = CAR_EMOJIS[i%CAR_EMOJIS.length];
+    const col = `hsl(${(i*47)%360},70%,55%)`;
+    $('carsGrid').appendChild(buildCarCard(em,col,p[0],p[1],currentNumber,i));
+  });
+  const first = document.querySelector('.wheel.blank');
+  if (first) setActiveWheel(first);
+}
+function renderMemoryMode() {
+  $('selectedTitle').innerHTML = `🧠 Запомни состав числа <span>${currentNumber}</span>!`;
+  $('carsGrid').innerHTML = '';
+  const pairs = [];
+  for (let a=1;a<currentNumber;a++) pairs.push([a,currentNumber-a]);
+  if (!pairs.length) { renderStudyMode(); return; }
+  pairs.forEach((p,i)=>{
+    const em = CAR_EMOJIS[i%CAR_EMOJIS.length];
+    const col = `hsl(${(i*47)%360},70%,55%)`;
+    const card = buildCarCard(em,col,p[0],p[1],currentNumber,i);
+    card.querySelectorAll('.wheel').forEach(w=>{
+      w.textContent = w.dataset.value;
+      w.classList.remove('blank'); w.classList.add('filled');
+    });
+    card.querySelector('.example').innerHTML = `${p[0]} + ${p[1]} = <span class="sum">${currentNumber}</span>`;
+    $('carsGrid').appendChild(card);
+  });
+  speak(`Запомни состав числа ${currentNumber}`);
+  clearTimeout(memoryTimeout);
+  memoryTimeout = setTimeout(()=>{
+    $('selectedTitle').innerHTML = `🧠 Теперь восстанови! Число <span>${currentNumber}</span>`;
+    renderStudyMode();
+  }, 4000);
+}
+function newExpressTask() {
+  activeWheel = null; $('carsGrid').innerHTML = '';
+  const n = rand(2,10), a = rand(1,n-1), b = n-a;
+  $('selectedTitle').innerHTML = `⚡ Экспресс: собери машинку!`;
+  const em = CAR_EMOJIS[rand(0,CAR_EMOJIS.length-1)];
+  const col = `hsl(${rand(0,360)},70%,55%)`;
+  $('carsGrid').appendChild(buildCarCard(em,col,a,b,n,0));
+  const first = document.querySelector('.wheel.blank');
+  if (first) setActiveWheel(first);
+  updateStats();
+}
+function updateStats() {
+  $('stats').innerHTML = `Правильно: <b>${expCorrect}</b> из <b>${expTotal}</b>`;
+}
+
+// ============================================================
+//  ИГРЫ
+// ============================================================
+const GAMES = [
+  {id:'count',ico:'🔢',name:'Посчитай'},
+  {id:'findNum',ico:'🎯',name:'Найди число'},
+  {id:'compare',ico:'⚖️',name:'Сравни'},
+  {id:'neighbors',ico:'👥',name:'Соседи'},
+  {id:'plusMinus',ico:'➕',name:'Больше/меньше'},
+  {id:'match',ico:'🃏',name:'Найди пару'},
+  {id:'sequence',ico:'➡️',name:'Продолжи ряд'},
+  {id:'parity',ico:'📊',name:'Чётные/нечётные'},
+  {id:'parking',ico:'🅿️',name:'Парковка'},
+  {id:'race',ico:'🏁',name:'Гонка'},
+  {id:'addition',ico:'➕',name:'Сложение'},
+  {id:'subtraction',ico:'➖',name:'Вычитание'},
+  {id:'order',ico:'📈',name:'Сортировка'},
+  {id:'missing',ico:'❓',name:'Пропуск'}
+];
+
+function renderGameMenu() {
+  const menu = $('gameMenu'); menu.innerHTML = '';
+  GAMES.forEach(g => {
+    const b = document.createElement('button');
+    b.className = 'game-menu-btn';
+    b.innerHTML = `<span class="ico">${g.ico}</span><span>${g.name}</span>`;
+    b.addEventListener('click', ()=>{ S.click(); startGame(g.id); });
+    menu.appendChild(b);
+  });
+}
+
+let currentGameId = null, gameStat = {correct:0,total:0};
+let gameTimerId = null, gameTimerSec = 0;
+
+function startGame(id) {
+  $('gameMenuView').classList.add('hidden');
+  $('gamePlayView').classList.remove('hidden');
+  $('gameScore').classList.add('hidden');
+  $('gameFeedback').textContent = ''; $('gameFeedback').className = 'game-feedback';
+  currentGameId = id;
+  gameStat = {correct:0,total:0};
+  const g = GAMES.find(x=>x.id===id);
+  $('gameTitle').textContent = `${g.ico} ${g.name}`;
+  $('gameContent').innerHTML = '';
+  startGameTimer();
+  const fns = {count:startCountGame,findNum:startFindNumGame,compare:startCompareGame,
+    neighbors:startNeighborsGame,plusMinus:startPlusMinusGame,match:startMatchGame,
+    sequence:startSequenceGame,parity:startParityGame,parking:startParkingGame,
+    race:startRaceGame,addition:startAdditionGame,subtraction:startSubtractionGame,
+    order:startOrderGame,missing:startMissingGame};
+  fns[id] && fns[id]();
+}
+$('backToMenu').addEventListener('click', ()=>{
+  S.click();
+  $('gameMenuView').classList.remove('hidden');
+  $('gamePlayView').classList.add('hidden');
+  clearGameTimer();
+});
+
+function updateGameScore() {
+  $('gameScore').classList.remove('hidden');
+  $('gameScore').innerHTML = `Правильно: <b>${gameStat.correct}</b> из <b>${gameStat.total}</b>`;
+}
+function gameFeedback(t, ok) {
+  $('gameFeedback').textContent = t;
+  $('gameFeedback').className = 'game-feedback ' + (ok?'ok':'no');
+}
+function trackGameResult(ok) {
+  gameStat.total++;
+  if (ok) {
+    gameStat.correct++; awardCorrect();
+    const st = state.stats[currentGameId];
+    if (st) { st.correct++; st.total++; }
+  } else {
+    const st = state.stats[currentGameId];
+    if (st) st.total++;
+  }
+  updateGameScore();
+}
+function startGameTimer() {
+  if (!state.timerOn) return;
+  clearGameTimer(); gameTimerSec = 0;
+  $('gameTimer').classList.remove('hidden');
+  $('gameTimer').innerHTML = `⏱️ Время: <b>0</b> сек`;
+  gameTimerId = setInterval(()=>{
+    gameTimerSec++;
+    $('gameTimer').innerHTML = `⏱️ Время: <b>${gameTimerSec}</b> сек`;
+  },1000);
+}
+function clearGameTimer() {
+  if (gameTimerId) { clearInterval(gameTimerId); gameTimerId = null; }
+  $('gameTimer').classList.add('hidden');
+}
+
+// Игра: посчитай
+function startCountGame() {
+  $('gameDesc').textContent = 'Посчитай машинки и выбери число';
+  function nt() {
+    gameFeedback('', true);
+    const count = rand(1,10);
+    const em = CAR_EMOJIS[rand(0,CAR_EMOJIS.length-1)];
+    let h = '<div class="count-task">';
+    for (let i=0;i<count;i++) h += `<span class="count-emoji">${em}</span>`;
+    h += '</div><div class="answer-row" id="ansRow"></div>';
+    $('gameContent').innerHTML = h;
+    speak(`Сколько машинок?`);
+    const opts = new Set([count]);
+    while (opts.size<4) opts.add(rand(1,10));
+    shuffle([...opts]).forEach(v=>{
+      const b = document.createElement('button');
+      b.className='answer-btn'; b.textContent=v;
+      b.addEventListener('click', ()=>{
+        if (v===count) { S.correct(); b.classList.add('ok'); trackGameResult(true); gameFeedback('Верно! 🎉',true); launchConfetti(8); setTimeout(nt,1000); }
+        else { S.wrong(); b.classList.add('no'); trackGameResult(false); gameFeedback('Попробуй ещё',false); }
+      });
+      $('ansRow').appendChild(b);
+    });
+  }
+  nt();
+}
+
+// Игра: найди число
+function startFindNumGame() {
+  $('gameDesc').textContent = 'Найди названное число';
+  function nt() {
+    gameFeedback('', true);
+    const target = rand(1,10);
+    speak(`Найди число ${target}`);
+    const nums = new Set([target]);
+    while (nums.size<6) nums.add(rand(1,10));
+    $('gameContent').innerHTML = '<div class="find-task" id="findRow"></div>';
+    shuffle([...nums]).forEach(v=>{
+      const b = document.createElement('button');
+      b.className='find-num'; b.textContent=v;
+      b.addEventListener('click', ()=>{
+        if (v===target) { S.correct(); b.classList.add('ok'); trackGameResult(true); gameFeedback('Нашёл! 🎉',true); launchConfetti(6); setTimeout(nt,1000); }
+        else { S.wrong(); b.classList.add('no'); trackGameResult(false); gameFeedback('Это не то число',false); setTimeout(()=>b.classList.remove('no'),500); }
+      });
+      $('findRow').appendChild(b);
+    });
+  }
+  nt();
+}
+
+// Сравни
+function startCompareGame() {
+  $('gameDesc').textContent = 'Выбери знак: >, = или <';
+  function nt() {
+    gameFeedback('', true);
+    const a = rand(1,10), b = rand(1,10);
+    const op = a>b?'>':a<b?'<':'=';
+    speak(`Сравни ${a} и ${b}`);
+    $('gameContent').innerHTML = `
+      <div class="compare-task">
+        <span class="compare-num">${a}</span>
+        <span class="compare-op" id="compareOp">?</span>
+        <span class="compare-num">${b}</span>
+      </div>
+      <div class="answer-row" id="ansRow"></div>`;
+    ['>','=','<'].forEach(o=>{
+      const b2 = document.createElement('button');
+      b2.className='answer-btn'; b2.textContent=o;
+      b2.addEventListener('click', ()=>{
+        if (o===op) { S.correct(); b2.classList.add('ok'); $('compareOp').textContent=op; $('compareOp').classList.add('correct-answer'); trackGameResult(true); gameFeedback('Верно! 🎉',true); launchConfetti(8); setTimeout(nt,1100); }
+        else { S.wrong(); b2.classList.add('no'); trackGameResult(false); gameFeedback('Попробуй ещё',false); }
+      });
+      $('ansRow').appendChild(b2);
+    });
+  }
+  nt();
+}
+
+// Соседи
+function startNeighborsGame() {
+  $('gameDesc').textContent = 'Впиши соседей числа';
+  function nt() {
+    gameFeedback('', true);
+    const n = rand(2,9);
+    speak(`Соседи числа ${n}`);
+    const hl = Math.random()<0.5;
+    $('gameContent').innerHTML = `
+      <div class="neighbors-task">
+        <div class="neighbor-slot"><div class="neighbor-label">было</div>
+          <div class="neighbor-box ${hl?'question active':''}" data-value="${n-1}">${hl?'?':n-1}</div></div>
+        <div class="neighbor-center">${n}</div>
+        <div class="neighbor-slot"><div class="neighbor-label">будет</div>
+          <div class="neighbor-box ${hl?'':'question active'}" data-value="${n+1}">${hl?n+1:'?'}</div></div>
+      </div>
+      <div class="answer-row" id="ansRow"></div>`;
+    const box = document.querySelector('.neighbor-box.question');
+    const opts = new Set([n-1,n+1]);
+    while (opts.size<4) opts.add(rand(1,10));
+    shuffle([...opts]).forEach(v=>{
+      const b = document.createElement('button');
+      b.className='answer-btn'; b.textContent=v;
+      b.addEventListener('click', ()=>{
+        if (v===Number(box.dataset.value)) {
+          S.correct(); box.textContent=v; box.classList.remove('question','active'); box.classList.add('filled');
+          trackGameResult(true); gameFeedback('Верно! 🎉',true); launchConfetti(6); setTimeout(nt,1100);
+        } else { S.wrong(); trackGameResult(false); gameFeedback('Попробуй ещё',false); }
+      });
+      $('ansRow').appendChild(b);
+    });
+  }
+  nt();
+}
+
+// Больше/меньше на 1
+function startPlusMinusGame() {
+  $('gameDesc').textContent = 'На 1 больше или меньше?';
+  function nt() {
+    gameFeedback('', true);
+    const n = rand(2,9), more = Math.random()<0.5;
+    const ans = more?n+1:n-1, w = more?'больше':'меньше';
+    speak(`Число ${n}. На один ${w}?`);
+    $('gameContent').innerHTML = `
+      <div class="plus-minus-task">Число <span class="big">${n}</span><br>на 1 <b>${w}</b> — это …</div>
+      <div class="answer-row" id="ansRow"></div>`;
+    const opts = new Set([ans]);
+    while (opts.size<4) { const x=n+rand(-3,3); if (x>0&&x!==ans) opts.add(x); }
+    shuffle([...opts]).forEach(v=>{
+      const b = document.createElement('button');
+      b.className='answer-btn'; b.textContent=v;
+      b.addEventListener('click', ()=>{
+        if (v===ans) { S.correct(); b.classList.add('ok'); trackGameResult(true); gameFeedback('Верно! 🎉',true); launchConfetti(8); setTimeout(nt,1100); }
+        else { S.wrong(); b.classList.add('no'); trackGameResult(false); gameFeedback('Попробуй ещё',false); }
+      });
+      $('ansRow').appendChild(b);
+    });
+  }
+  nt();
+}
+
+// Найди пару
+function startMatchGame() {
+  $('gameDesc').textContent = 'Открой две карточки с одинаковыми числами';
+  function nt() {
+    gameFeedback('', true);
+    const pool = shuffle([1,2,3,4,5,6,7,8,9,10]);
+    const chosen = pool.slice(0,6);
+    const cards = shuffle([...chosen,...chosen]);
+    let h = '<div class="match-grid">';
+    cards.forEach((v,i)=>{ h += `<div class="match-card" data-value="${v}">${v}</div>`; });
+    h += '</div>';
+    $('gameContent').innerHTML = h;
+    let first=null, lock=false, matched=0;
+    document.querySelectorAll('.match-card').forEach(card=>{
+      card.addEventListener('click', ()=>{
+        if (lock||card.classList.contains('revealed')||card.classList.contains('matched')) return;
+        S.click(); card.classList.add('revealed');
+        if (!first) { first=card; return; }
+        if (first===card) return;
+        if (first.dataset.value===card.dataset.value) {
+          S.match();
+          setTimeout(()=>{
+            first.classList.add('matched'); card.classList.add('matched');
+            matched++; trackGameResult(true); first=null;
+            if (matched===6) { S.victory(); launchConfetti(30); gameFeedback('Все пары найдены! 🎉',true); setTimeout(nt,2500); }
+            else gameFeedback('Пара! 🎉',true);
+          },280);
+        } else {
+          S.wrong(); lock=true; gameFeedback('Не совпало',false);
+          setTimeout(()=>{ first.classList.remove('revealed'); card.classList.remove('revealed'); first=null; lock=false; },800);
+        }
+      });
+    });
+  }
+  nt();
+}
+
+// Продолжи ряд
+function startSequenceGame() {
+  $('gameDesc').textContent = 'Какое число должно стоять дальше?';
+  function nt() {
+    gameFeedback('', true);
+    const start = rand(1,4), step = Math.random()<0.6?1:2;
+    const seq = [start,start+step,start+step*2,start+step*3];
+    const ans = start+step*4;
+    speak(`Продолжи ряд: ${seq.join(', ')}`);
+    $('gameContent').innerHTML = `
+      <div class="sequence-task" id="seqTask"></div>
+      <div class="answer-row" id="ansRow"></div>`;
+    seq.forEach(v=>{
+      const s = document.createElement('div'); s.className='seq-item'; s.textContent=v;
+      $('seqTask').appendChild(s);
+    });
+    const q = document.createElement('div');
+    q.className='seq-item question'; q.textContent='?';
+    $('seqTask').appendChild(q);
+    const opts = new Set([ans]);
+    while (opts.size<4) { const w=ans+rand(-3,3); if (w>0&&w!==ans) opts.add(w); }
+    shuffle([...opts]).forEach(v=>{
+      const b = document.createElement('button');
+      b.className='answer-btn'; b.textContent=v;
+      b.addEventListener('click', ()=>{
+        if (v===ans) { S.correct(); b.classList.add('ok'); q.textContent=v; q.classList.remove('question'); q.classList.add('filled'); trackGameResult(true); gameFeedback('Верно! 🎉',true); launchConfetti(8); setTimeout(nt,1200); }
+        else { S.wrong(); b.classList.add('no'); trackGameResult(false); gameFeedback('Попробуй ещё',false); }
+      });
+      $('ansRow').appendChild(b);
+    });
+  }
+  nt();
+}
+
+// Чётные/нечётные
+function startParityGame() {
+  $('gameDesc').textContent = 'Разложи числа по гаражам';
+  const nums = shuffle([1,2,3,4,5,6,7,8,9,10]);
+  let idx=0;
+  $('gameContent').innerHTML = `
+    <div style="text-align:center;margin:10px 0;">Машинка: <b id="pCar">🚗</b> число <b id="pNum">1</b></div>
+    <div class="parity-garage">
+      <div class="garage"><div class="garage-label">Чётные</div><div class="garage-contents" id="gE"></div></div>
+      <div class="garage"><div class="garage-label">Нечётные</div><div class="garage-contents" id="gO"></div></div>
+    </div>
+    <div class="answer-row">
+      <button class="answer-btn" id="bE" style="font-size:0.9rem;">Чётное</button>
+      <button class="answer-btn" id="bO" style="font-size:0.9rem;">Нечётное</button>
+    </div>`;
+  function next() {
+    if (idx>=nums.length) { S.victory(); launchConfetti(25); gameFeedback(`Готово! ${gameStat.correct} из ${gameStat.total}`,true); return; }
+    $('pNum').textContent = nums[idx];
+    $('pCar').textContent = CAR_EMOJIS[rand(0,CAR_EMOJIS.length-1)];
+    speak(`Число ${nums[idx]}. Чётное или нечётное?`);
+  }
+  function choose(isEven) {
+    const n = nums[idx], cE = n%2===0;
+    if (isEven===cE) {
+      S.correct(); trackGameResult(true); gameFeedback('Верно!',true);
+      const c = isEven?$('gE'):$('gO');
+      const chip = document.createElement('span'); chip.className='parity-car'; chip.textContent=n;
+      c.appendChild(chip);
+      idx++; setTimeout(next,400);
+    } else { S.wrong(); trackGameResult(false); gameFeedback('Не то! Попробуй ещё',false); }
+  }
+  $('bE').addEventListener('click',()=>choose(true));
+  $('bO').addEventListener('click',()=>choose(false));
+  next();
+}
+
+// Парковка
+function startParkingGame() {
+  $('gameDesc').textContent = 'Перетащи машинку в гараж с правильным ответом';
+  function nt() {
+    gameFeedback('', true);
+    const a = rand(1,5), b = rand(1,5), ans = a+b;
+    speak(`Пример ${a} плюс ${b}. Куда припарковать?`);
+    $('gameContent').innerHTML = `
+      <div style="text-align:center;font-size:1.2rem;margin:10px 0;">Пример: <b>${a} + ${b} = ?</b></div>
+      <div class="parking-area"><div class="parking-car" id="pCar" draggable="true"><span>🏎️</span><span class="num">?</span></div></div>
+      <div class="parking-slots" id="pSlots"></div>
+      <div style="text-align:center;font-size:0.8rem;color:var(--text-light);margin-top:8px;">(или нажми на гараж)</div>`;
+    const opts = new Set([ans]);
+    while (opts.size<3) { const w=ans+rand(-3,3); if (w>=2&&w!==ans) opts.add(w); }
+    shuffle([...opts]).forEach(v=>{
+      const s = document.createElement('div');
+      s.className='parking-slot'; s.dataset.value=v;
+      s.innerHTML = `<div class="slot-num">${v}</div><div class="slot-contents"></div>`;
+      s.addEventListener('click', ()=>tryDrop(v,s,ans));
+      s.addEventListener('dragover', e=>{e.preventDefault();s.classList.add('over');});
+      s.addEventListener('dragleave', ()=>s.classList.remove('over'));
+      s.addEventListener('drop', e=>{e.preventDefault();s.classList.remove('over');tryDrop(v,s,ans);});
+      $('pSlots').appendChild(s);
+    });
+    $('pCar').addEventListener('dragstart', e=>{ e.dataTransfer.setData('text/plain',ans); });
+  }
+  function tryDrop(chosen, slot, correct) {
+    if (chosen===correct) {
+      S.correct(); slot.querySelector('.slot-contents').textContent='🏎️';
+      slot.style.background='rgba(39,174,96,0.3)';
+      $('pCar').style.visibility='hidden';
+      trackGameResult(true); gameFeedback('Припарковано! 🎉',true); launchConfetti(8);
+      setTimeout(nt,1200);
+    } else {
+      S.wrong(); slot.style.background='rgba(231,76,60,0.3)';
+      setTimeout(()=>slot.style.background='',400);
+      trackGameResult(false); gameFeedback('Не сюда!',false);
+    }
+  }
+  nt();
+}
+
+// Гонка
+function startRaceGame() {
+  $('gameDesc').textContent = 'Реши 10 примеров — доведи машинку до финиша!';
+  let progress = 0, total = 10, startedAt = Date.now();
+  function nt() {
+    if (progress>=total) {
+      const s = Math.round((Date.now()-startedAt)/1000);
+      S.victory(); launchConfetti(35);
+      gameFeedback(`🏆 Финиш! Время: ${s} сек`,true);
+      $('gameContent').innerHTML = '<div style="text-align:center;font-size:2rem;padding:30px;">🏁🏆🏁</div>';
+      return;
+    }
+    gameFeedback('', true);
+    const a = rand(1,5), b = rand(1,5), ans = a+b;
+    speak(`Сколько будет ${a} плюс ${b}?`);
+    $('gameContent').innerHTML = `
+      <div class="race-track"><div class="race-car" id="raceCar" style="left:4px;">🏎️</div><div class="race-finish"></div></div>
+      <div class="race-question">${a} + ${b} = ?</div>
+      <div class="answer-row" id="ansRow"></div>`;
+    const opts = new Set([ans]);
+    while (opts.size<4) { const w=ans+rand(-3,3); if (w>=2&&w!==ans) opts.add(w); }
+    shuffle([...opts]).forEach(v=>{
+      const btn = document.createElement('button');
+      btn.className='answer-btn'; btn.textContent=v;
+      btn.addEventListener('click', ()=>{
+        if (v===ans) {
+          S.correct(); progress++; trackGameResult(true);
+          $('raceCar').style.left = (4+(progress/total)*(100-10))+'%';
+          gameFeedback(`Верно! ${progress}/${total}`,true);
+          setTimeout(nt,600);
+        } else { S.wrong(); btn.classList.add('no'); trackGameResult(false); gameFeedback('Подумай ещё',false); setTimeout(()=>btn.classList.remove('no'),500); }
+      });
+      $('ansRow').appendChild(btn);
+    });
+  }
+  startedAt = Date.now();
+  nt();
+}
+
+// Сложение
+function startAdditionGame() {
+  $('gameDesc').textContent = 'Сколько будет?';
+  function nt() {
+    gameFeedback('', true);
+    const a = rand(1,5), b = rand(1,5), ans = a+b;
+    speak(`${a} плюс ${b}`);
+    $('gameContent').innerHTML = `
+      <div class="equation-display">${a} <span class="op">+</span> ${b} = <span class="q">?</span></div>
+      <div class="answer-row" id="ansRow"></div>`;
+    const opts = new Set([ans]);
+    while (opts.size<4) { const w=ans+rand(-3,3); if (w>=2&&w!==ans) opts.add(w); }
+    shuffle([...opts]).forEach(v=>{
+      const btn = document.createElement('button');
+      btn.className='answer-btn'; btn.textContent=v;
+      btn.addEventListener('click', ()=>{
+        if (v===ans) { S.correct(); btn.classList.add('ok'); $('gameContent').querySelector('.q').textContent=v; trackGameResult(true); gameFeedback('Верно! 🎉',true); launchConfetti(8); setTimeout(nt,1000); }
+        else { S.wrong(); btn.classList.add('no'); trackGameResult(false); gameFeedback('Попробуй ещё',false); }
+      });
+      $('ansRow').appendChild(btn);
+    });
+  }
+  nt();
+}
+
+// Вычитание
+function startSubtractionGame() {
+  $('gameDesc').textContent = 'Сколько останется?';
+  function nt() {
+    gameFeedback('', true);
+    const a = rand(2,10), b = rand(1,a-1), ans = a-b;
+    speak(`${a} минус ${b}`);
+    $('gameContent').innerHTML = `
+      <div class="equation-display">${a} <span class="op">−</span> ${b} = <span class="q">?</span></div>
+      <div class="answer-row" id="ansRow"></div>`;
+    const opts = new Set([ans]);
+    while (opts.size<4) { const w=ans+rand(-3,3); if (w>=0&&w!==ans) opts.add(w); }
+    shuffle([...opts]).forEach(v=>{
+      const btn = document.createElement('button');
+      btn.className='answer-btn'; btn.textContent=v;
+      btn.addEventListener('click', ()=>{
+        if (v===ans) { S.correct(); btn.classList.add('ok'); $('gameContent').querySelector('.q').textContent=v; trackGameResult(true); gameFeedback('Верно! 🎉',true); launchConfetti(8); setTimeout(nt,1000); }
+        else { S.wrong(); btn.classList.add('no'); trackGameResult(false); gameFeedback('Попробуй ещё',false); }
+      });
+      $('ansRow').appendChild(btn);
+    });
+  }
+  nt();
+}
+
+// Сортировка по порядку
+function startOrderGame() {
+  $('gameDesc').textContent = 'Нажимай числа по возрастанию';
+  function nt() {
+    gameFeedback('', true);
+    const count = 5;
+    const start = rand(1,6);
+    const nums = shuffle(Array.from({length:count},(_,i)=>start+i));
+    let expected = start;
+    speak(`Нажми числа по порядку: от ${start} до ${start+count-1}`);
+    let html = '<div class="order-items" id="ordItems">';
+    nums.forEach(v=>html += `<div class="order-item" data-v="${v}">${v}</div>`);
+    html += '</div>';
+    $('gameContent').innerHTML = html;
+    document.querySelectorAll('.order-item').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        if (Number(el.dataset.v)===expected) {
+          S.correct(); el.classList.add('done'); expected++;
+          trackGameResult(true);
+          if (expected > start+count-1) {
+            gameFeedback('По порядку! 🎉',true); launchConfetti(15);
+            setTimeout(nt,1200);
+          } else gameFeedback(`Теперь ${expected}`,true);
+        } else {
+          S.wrong(); trackGameResult(false);
+          el.classList.add('selected');
+          setTimeout(()=>el.classList.remove('selected'),300);
+          gameFeedback(`Нужно ${expected}`,false);
+        }
+      });
+    });
+  }
+  nt();
+}
+
+// Пропущенное число
+function startMissingGame() {
+  $('gameDesc').textContent = 'Какое число пропущено?';
+  function nt() {
+    gameFeedback('', true);
+    const start = rand(1,5);
+    const arr = [start,start+1,start+2,start+3,start+4];
+    const missIdx = rand(1,3);
+    const ans = arr[missIdx];
+    speak(`Пропущено число в ряду: ${arr.map((v,i)=>i===missIdx?'?':v).join(', ')}`);
+    let html = '<div class="sequence-task">';
+    arr.forEach((v,i)=>{
+      if (i===missIdx) html += `<div class="seq-item question" id="missQ">?</div>`;
+      else html += `<div class="seq-item">${v}</div>`;
+    });
+    html += '</div><div class="answer-row" id="ansRow"></div>';
+    $('gameContent').innerHTML = html;
+    const opts = new Set([ans]);
+    while (opts.size<4) { const w=ans+rand(-3,3); if (w>=1&&w!==ans) opts.add(w); }
+    shuffle([...opts]).forEach(v=>{
+      const btn = document.createElement('button');
+      btn.className='answer-btn'; btn.textContent=v;
+      btn.addEventListener('click', ()=>{
+        if (v===ans) {
+          S.correct(); btn.classList.add('ok');
+          $('missQ').textContent=v; $('missQ').classList.remove('question'); $('missQ').classList.add('filled');
+          trackGameResult(true); gameFeedback('Верно! 🎉',true); launchConfetti(8); setTimeout(nt,1100);
+        } else { S.wrong(); btn.classList.add('no'); trackGameResult(false); gameFeedback('Попробуй ещё',false); }
+      });
+      $('ansRow').appendChild(btn);
+    });
+  }
+  nt();
+}
+
+// ============================================================
+//  АЧИВКИ
+// ============================================================
+function renderAchievements() {
+  const list = $('achList'); list.innerHTML = '';
+  ACHIEVEMENTS.forEach(a => {
+    const un = state.achievements[a.id];
+    const div = document.createElement('div');
+    div.className = 'ach' + (un?' unlocked':'');
+    div.innerHTML = `<div class="ico">${a.ico}</div><div class="name">${a.name}</div>`;
+    list.appendChild(div);
+  });
+}
+
+// ============================================================
+//  НАСТРОЙКИ
+// ============================================================
+$('toggleSound').addEventListener('click', ()=>{ state.soundOn=!state.soundOn; updateSettingsUI(); saveState(); if(state.soundOn)S.click(); });
+$('toggleVoice').addEventListener('click', ()=>{ state.voiceOn=!state.voiceOn; updateSettingsUI(); saveState(); if(state.voiceOn)speak('Озвучка включена'); });
+$('toggleTheme').addEventListener('click', ()=>{ state.darkTheme=!state.darkTheme; applyTheme(); updateSettingsUI(); saveState(); });
+$('toggleSpace').addEventListener('click', ()=>{ state.spaceTheme=!state.spaceTheme; applyTheme(); updateSettingsUI(); saveState(); });
+$('toggleForest').addEventListener('click', ()=>{ state.forestTheme=!state.forestTheme; applyTheme(); updateSettingsUI(); saveState(); });
+$('toggleTimer').addEventListener('click', ()=>{ state.timerOn=!state.timerOn; updateSettingsUI(); saveState(); });
+$('installBtn').addEventListener('click', ()=>{
+  if (window.deferredPrompt) { window.deferredPrompt.prompt(); }
+  else alert('Открой меню браузера → «Установить приложение» или «Добавить на главный экран».');
+});
+$('resetBtn').addEventListener('click', ()=>{
+  if (confirm('Сбросить весь прогресс?')) {
+    localStorage.removeItem(STATE_KEY);
+    location.reload();
+  }
+});
+function updateSettingsUI() {
+  const set = (id, on, txtOn, txtOff) => {
+    const el = $(id); if (!el) return;
+    el.textContent = on ? (txtOn||'Вкл') : (txtOff||'Выкл');
+    el.classList.toggle('on', on);
+  };
+  set('toggleSound', state.soundOn);
+  set('toggleVoice', state.voiceOn);
+  set('toggleTheme', state.darkTheme);
+  set('toggleSpace', state.spaceTheme);
+  set('toggleForest', state.forestTheme);
+  set('toggleTimer', state.timerOn);
+  $('themeBtn').textContent = state.darkTheme ? '☀️' : '🌙';
+  $('soundBtn').textContent = state.soundOn ? '🔊' : '🔇';
+}
+function applyTheme() {
+  document.body.classList.toggle('dark', state.darkTheme);
+  document.body.classList.toggle('theme-space', state.spaceTheme && !state.darkTheme);
+  document.body.classList.toggle('theme-forest', state.forestTheme && !state.darkTheme);
+}
+
+// ============================================================
+//  ВЕРХНИЕ КНОПКИ
+// ============================================================
+$('soundBtn').addEventListener('click', ()=>{
+  state.soundOn = !state.soundOn;
+  updateSettingsUI(); saveState();
+  if (state.soundOn) S.click();
+});
+$('themeBtn').addEventListener('click', ()=>{
+  state.darkTheme = !state.darkTheme;
+  applyTheme(); updateSettingsUI(); saveState();
+});
+$('parentBtn').addEventListener('click', ()=>{ S.click(); showParentPanel(); });
+
+function showParentPanel() {
+  const stats = state.stats;
+  let total = 0, correct = 0;
+  Object.values(stats).forEach(s => { total += s.total; correct += s.correct; });
+  const pct = total ? Math.round(correct/total*100) : 0;
+  const names = {compose:'Состав',compare:'Сравнение',neighbors:'Соседи',match:'Пары',
+    sequence:'Ряды',count:'Счёт',findNum:'Поиск',plusMinus:'±1',parity:'Чётные',
+    parking:'Парковка',race:'Гонка',addition:'Сложение',subtraction:'Вычитание',
+    order:'Порядок',missing:'Пропуск'};
+  let rows = '';
+  Object.keys(names).forEach(k=>{
+    const s = stats[k];
+    if (s.total>0) {
+      const p = Math.round(s.correct/s.total*100);
+      rows += `<div class="parent-stat"><div class="val">${p}%</div><div class="lbl">${names[k]}<br><small>${s.correct}/${s.total}</small></div></div>`;
+    }
+  });
+  const o = document.createElement('div');
+  o.className='overlay blue';
+  o.innerHTML = `
+    <div class="msg" style="color:#2b6cb0;font-size:1.1rem;text-align:left;max-width:500px;">
+      👨‍👩‍👧 Для родителей
+      <div style="margin-top:12px;font-size:0.85rem;font-weight:normal;color:#333;">
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+        <div style="text-align:center;margin-bottom:10px;">Всего: ${correct}/${total} (${pct}%)</div>
+        <div class="parent-stats">${rows||'<div style="text-align:center;color:#999;grid-column:1/-1;">Пока нет данных</div>'}</div>
+        <div style="text-align:center;margin-top:10px;color:#888;font-size:0.8rem;">
+          Изучено: ${state.learnedNumbers.length}/9 · Ответов: ${state.totalCorrect}
+        </div>
+        <button onclick="this.closest('.overlay').remove()" style="margin-top:12px;padding:10px 20px;border:none;border-radius:12px;background:#2b6cb0;color:#fff;font-weight:bold;cursor:pointer;font-family:inherit;display:block;margin-left:auto;margin-right:auto;">Закрыть</button>
+      </div>
+    </div>`;
+  document.body.appendChild(o);
+}
+
+// ============================================================
+//  PWA
+// ============================================================
+window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); window.deferredPrompt=e; });
+try {
+  if ('serviceWorker' in navigator) {
+    const sw = `const C='math-cars-v3';self.addEventListener('install',e=>e.waitUntil(self.skipWaiting()));self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{const c=res.clone();caches.open(C).then(cc=>cc.put(e.request,c));return res;}).catch(()=>caches.match(e.request)))));`;
+    const blob = new Blob([sw],{type:'text/javascript'});
+    navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
+  }
+} catch (e) {}
+
+// ============================================================
+//  СТАРТ
+// ============================================================
+loadState();
+applyTheme();
+updateSettingsUI();
+updateRewards();
+renderStudyMode();
+renderGameMenu();
+updatePet();
+
+setTimeout(()=>speak('Привет! Давай учить математику с машинками!'),800);
+document.addEventListener('contextmenu', e=>{
+  if (e.target.closest('.wheel, .match-card, .parking-car')) e.preventDefault();
+});
+</script>
+</body>
+</html>
